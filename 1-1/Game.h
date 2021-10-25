@@ -32,6 +32,7 @@ float bar_speed = 7;
 bool x_counter;
 bool y_counter;
 bool down = false;
+bool first = false;
 
 int r[4][4] = { 0 };
 

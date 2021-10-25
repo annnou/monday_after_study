@@ -6,28 +6,55 @@
 
 #define WIDTH 800
 #define HEIGHT 600
-#define size 50
+#define size 30
 
 
 
 void InitGame()
 {
 	srand((unsigned)time(NULL));
+	
 }
 
 void GameMain()
 {
-	for (int i = 0; i < num1; i++) {
-		setBrush(RGB(0, 255, 0));
-		setPen(RGB(255, 0, 0), PS_SOLID, 5);
-		prtEllipse(x[i] - size / 2, y[i] - size / 2 ,  size, size, 1);
+
+
+	if (!y_counter) {
+		if (KEY_LBUTTON == HOLD_KEY) {
+			if (!down) {
+				x[0] = MOUSE_PX;
+				y[0] = MOUSE_PY;
+				down = true;
+			}
+			setBrush(RGB(0, 0, 255));
+			setPen(RGB(0, 255, 0), PS_SOLID, 3);
+			prtRect(x[0], y[0], MOUSE_PX - x[0], MOUSE_PY - y[0], 1);
+			setBrush(RGB(255, 0, 0));
+			prtEllipse(MOUSE_PX - size / 2, MOUSE_PY - size / 2, size, size, 1);
+		}
+		if (KEY_LBUTTON == PULL_KEY) {
+			down = false;
+			x_counter = true;
+		}
 	}
+	if (x_counter)
+	{
+		if (!y_counter)
+		{
+			x[1] = MOUSE_PX - x[0];
+			y[1] = MOUSE_PY - y[0];
+			y_counter = true;
 
-	if (num1 < 100 && KEY_LBUTTON == PUSH_KEY) {
-		x[num1] = MOUSE_PX;
-		y[num1] = MOUSE_PY;
+			x[2] = MOUSE_PX;
+			y[2] = MOUSE_PY;
+		}
 
-		num1++;
+		setBrush(RGB(0, 0, 255));
+		setPen(RGB(0, 255, 0), PS_SOLID, 3);
+		prtRect(x[0], y[0],x[1] ,y[1], 1);
+		setBrush(RGB(255, 0, 0));
+		prtEllipse(x[2] - size / 2, y[2] - size / 2, size, size, 1);
 	}
 
 	return;
