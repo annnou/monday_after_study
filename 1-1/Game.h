@@ -18,8 +18,8 @@ int color1;
 int color2;
 int color3;
 
-float x;		// 機体の左上X座標
-float y;        // 機体の左上Y座標
+float x[100];		// 機体の左上X座標
+float y[100];        // 機体の左上Y座標
 float x_stick = 100;		        
 float speed = 3;  // 機体のスピード
 float x_random;
