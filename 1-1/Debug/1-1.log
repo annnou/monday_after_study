@@ -1,9 +1,12 @@
 ﻿  Game.cpp
-C:\repos\visual studio\月曜後半  アルゴリズム\monday_after_study\1-1\Game.cpp(29,40): warning C4244: '引数': 'float' から 'int' への変換です。データが失われる可能性があります。
-C:\repos\visual studio\月曜後半  アルゴリズム\monday_after_study\1-1\Game.cpp(29,10): warning C4244: '引数': 'float' から 'int' への変換です。データが失われる可能性があります。
-C:\repos\visual studio\月曜後半  アルゴリズム\monday_after_study\1-1\Game.cpp(32,54): warning C4244: '=': 'int' から 'float' への変換です。データが失われる可能性があります。
-C:\repos\visual studio\月曜後半  アルゴリズム\monday_after_study\1-1\Game.cpp(37,26): warning C4244: '引数': 'float' から 'int' への変換です。データが失われる可能性があります。
-C:\repos\visual studio\月曜後半  アルゴリズム\monday_after_study\1-1\Game.cpp(37,19): warning C4244: '引数': 'float' から 'int' への変換です。データが失われる可能性があります。
-C:\repos\visual studio\月曜後半  アルゴリズム\monday_after_study\1-1\Game.cpp(37,16): warning C4244: '引数': 'float' から 'int' への変換です。データが失われる可能性があります。
-C:\repos\visual studio\月曜後半  アルゴリズム\monday_after_study\1-1\Game.cpp(37,13): warning C4244: '引数': 'float' から 'int' への変換です。データが失われる可能性があります。
+C:\repos\visual studio\月曜後半  アルゴリズム\monday_after_study\1-1\Game.cpp(73,13): warning C4244: '=': 'int' から 'float' への変換です。データが失われる可能性があります。
+C:\repos\visual studio\月曜後半  アルゴリズム\monday_after_study\1-1\Game.cpp(74,13): warning C4244: '=': 'int' から 'float' への変換です。データが失われる可能性があります。
+C:\repos\visual studio\月曜後半  アルゴリズム\monday_after_study\1-1\Game.cpp(83,40): warning C4244: '引数': 'float' から 'int' への変換です。データが失われる可能性があります。
+C:\repos\visual studio\月曜後半  アルゴリズム\monday_after_study\1-1\Game.cpp(83,10): warning C4244: '引数': 'float' から 'int' への変換です。データが失われる可能性があります。
+C:\repos\visual studio\月曜後半  アルゴリズム\monday_after_study\1-1\Game.cpp(100,26): warning C4244: '引数': 'float' から 'int' への変換です。データが失われる可能性があります。
+C:\repos\visual studio\月曜後半  アルゴリズム\monday_after_study\1-1\Game.cpp(100,19): warning C4244: '引数': 'float' から 'int' への変換です。データが失われる可能性があります。
+C:\repos\visual studio\月曜後半  アルゴリズム\monday_after_study\1-1\Game.cpp(100,16): warning C4244: '引数': 'float' から 'int' への変換です。データが失われる可能性があります。
+C:\repos\visual studio\月曜後半  アルゴリズム\monday_after_study\1-1\Game.cpp(100,13): warning C4244: '引数': 'float' から 'int' への変換です。データが失われる可能性があります。
+C:\repos\visual studio\月曜後半  アルゴリズム\monday_after_study\1-1\Game.cpp(112,11): warning C4244: '引数': 'float' から 'int' への変換です。データが失われる可能性があります。
+C:\repos\visual studio\月曜後半  アルゴリズム\monday_after_study\1-1\Game.cpp(112,9): warning C4244: '引数': 'float' から 'int' への変換です。データが失われる可能性があります。
   1-1.vcxproj -> C:\repos\visual studio\月曜後半  アルゴリズム\monday_after_study\1-1\Debug\1-1.exe
