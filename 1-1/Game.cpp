@@ -29,21 +29,27 @@ void GameMain()
 
 	for (int i = 0; i < 4; i++) {
 		for (int o = 0; o < 4; o++) {
-			if (r[i][o]==0) {
+			setPen(RGB(100, 100, 100), PS_SOLID, 5);
+			prtRect(200 + size * o , 100 + size * i, size, size,1);
+		}
+	}
 
+	for (int i = 0; i < 4; i++) {
+		for (int o = 0; o < 4; o++) {
+			if (r[i][o] == 0) {
 				if (!down && !i == 0 && KEY_UP == PUSH_KEY) {
 					r[i][o] = 1;
 					r[i - 1][o] = 0;
 					down = true;
 				}
-				if (!down && (i == 0||i==1||i==2) && KEY_DOWN == PUSH_KEY) {
+				if (!down && (i == 0 || i == 1 || i == 2) && KEY_DOWN == PUSH_KEY) {
 					r[i][o] = 1;
-					r[i+1][o] = 0;
+					r[i + 1][o] = 0;
 					down = true;
 				}
 				if (!down && (o == 0 || o == 1 || o == 2) && KEY_RIGHT == PUSH_KEY) {
 					r[i][o] = 1;
-					r[i][o+1] = 0;
+					r[i][o + 1] = 0;
 					down = true;
 				}
 				if (!down && !o == 0 && KEY_LEFT == PUSH_KEY) {
@@ -51,16 +57,18 @@ void GameMain()
 					r[i][o - 1] = 0;
 					down = true;
 				}
-
 				setPen(RGB(255, 0, 0), PS_SOLID, 5);
-			}else {
-				setPen(RGB(100, 100, 100), PS_SOLID, 5);
+				prtRect(200 + size * o, 100 + size * i, size, size, 1);
 			}
-			prtRect(200 + size * o , 100 + size * i, size, size,1);
 		}
 	}
-	down = false;
 
+
+
+	setPen(RGB(255, 0, 0), PS_SOLID, 5);
+
+
+	down = false;
 
 	return;
 }
