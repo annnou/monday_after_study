@@ -6,18 +6,13 @@
 
 #define WIDTH 800
 #define HEIGHT 600
-#define size 100
+#define size 50
 
 
 
 void InitGame()
 {
 	srand((unsigned)time(NULL));
-
-	for (int i = 0; i < 100; i++) {
-		x[i] = rand() % (800 - size) + 1;
-		y[i] = rand() % (600 - size) + 1;
-	}
 }
 
 void GameMain()
@@ -25,10 +20,13 @@ void GameMain()
 	for (int i = 0; i < num1; i++) {
 		setBrush(RGB(0, 255, 0));
 		setPen(RGB(255, 0, 0), PS_SOLID, 5);
-		prtEllipse(x[i], y[i],  size, size, 1);
+		prtEllipse(x[i] - size / 2, y[i] - size / 2 ,  size, size, 1);
 	}
 
 	if (num1 < 100 && KEY_LBUTTON == PUSH_KEY) {
+		x[num1] = MOUSE_PX;
+		y[num1] = MOUSE_PY;
+
 		num1++;
 	}
 
@@ -59,6 +57,11 @@ void ExitGameMain()
 #define	PUSH_KEY	1 // キーを押された瞬間
 #define	PULL_KEY	2 // キーが放された瞬間
 #define	HOLD_KEY	3 // キーが押されている状態
+*/
+
+/*
+extern int MOUSE_PX;						// マウスの現在のX座標
+extern int MOUSE_PY;						// マウスの現在のY座標
 */
 
 /*

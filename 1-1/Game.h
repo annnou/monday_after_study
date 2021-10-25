@@ -7,7 +7,7 @@
  * history:	
  *
  */
-#ifndef __GAME_H__
+#define __GAME_H__
 #define __GAME_H__
 #include "./WinGDILib.h"
 #define NUM 30
@@ -36,4 +36,3 @@ bool down = false;
 int r[4][4] = { 0 };
 
 
-#endif
