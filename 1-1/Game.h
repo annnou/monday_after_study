@@ -11,7 +11,8 @@
 #define __GAME_H__
 #include "./WinGDILib.h"
 #define NUM 30
-int num = 1;	//球を表示する個数
+int num1 = 1;	
+int num2 = 1;	
 int _time;
 int color1;
 int color2;
@@ -31,6 +32,8 @@ float bar_speed = 7;
 bool x_counter;
 bool y_counter;
 bool down = false;
+
+int r[4][4] = { 0 };
 
 
 #endif
