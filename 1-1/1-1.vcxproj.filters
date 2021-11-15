@@ -15,18 +15,18 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Game.cpp">
+    <ClCompile Include="WinGDILib.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="WinGDILib.cpp">
+    <ClCompile Include="Game.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Game.h">
+    <ClInclude Include="WinGDILib.h">
       <Filter>ソース ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="WinGDILib.h">
+    <ClInclude Include="Game.h">
       <Filter>ソース ファイル</Filter>
     </ClInclude>
   </ItemGroup>

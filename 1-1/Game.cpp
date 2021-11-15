@@ -3,61 +3,106 @@
 #include<stdlib.h> 
 #include<time.h> 
 #include<Windows.h>
+#include<math.h>
 
-#define WIDTH 800
-#define HEIGHT 600
-#define size 30
+#define SIZE 40 
+#define SPEED 2;
 
+void player()
+{
+	if (KEY_LEFT == HOLD_KEY && player_x - SIZE / 2 > 0)
+	{
+		player_x -= 3;
+	}
+	if (KEY_RIGHT == HOLD_KEY && player_x + SIZE < WIDTH)
+	{
+		player_x += 3;
+	}
 
+	setPen(RGB(0, 255, 0), PS_SOLID, 3);
+	prtLine(player_x, player_y, player_x - SIZE / 2, player_y + SIZE);
+	prtLine(player_x - SIZE / 2, player_y + SIZE, player_x + SIZE / 2, player_y + SIZE);
+	prtLine(player_x + SIZE, player_y + SIZE, player_x, player_y);
+}
+void enemy()
+{
+	setBrush(RGB(0, 0, 0));
+	setPen(RGB(255, 0, 0), PS_SOLID, 3);
+	prtRect(enemy_x, enemy_y, SIZE, SIZE, 1);
+
+	if (enemy_x + SIZE > WIDTH)
+	{
+		counter = true;
+	}
+	else if (enemy_x < 0)
+	{
+		counter = false;
+	}
+	
+	if (!counter)
+	{
+		enemy_x += 2;
+	}
+	else
+	{
+		enemy_x -= 2;
+	}
+}
+void tama()
+{
+
+	if (KEY_SPACE == PUSH_KEY)
+	{
+		x[array_] = player_x - 2;
+		y[array_] = player_y - 5;
+
+		num++;
+		array_++;
+	}
+
+	for (int i = n; i < n + num; i++) {
+
+		setBrush(RGB(0, 0, 0));
+		setPen(RGB(0, 0, 255), PS_SOLID, 5);
+		prtEllipse(x[i] , y[i], 5, 20);
+
+		y[i]-=3;
+
+		if (y[i] + 3 < 0)
+		{
+			n++;
+			num--;
+		}
+
+		if (enemy_x <= x[i] && x[i] <= enemy_x + SIZE
+			&& enemy_y <= y[i] && y[i] <= enemy_y + SIZE)
+		{
+			isdown = true;
+		}
+	}
+
+}
 
 void InitGame()
 {
-	srand((unsigned)time(NULL));
-	
+	player_x = WIDTH / 2;
+	player_y = HEIGHT - SIZE - 60;
+
+	enemy_x = WIDTH / 2;
+	enemy_y = 60;
 }
 
 void GameMain()
 {
+	player();
 
-
-	if (!y_counter) {
-		if (KEY_LBUTTON == HOLD_KEY) {
-			if (!down) {
-				x[0] = MOUSE_PX;
-				y[0] = MOUSE_PY;
-				down = true;
-			}
-			setBrush(RGB(0, 0, 255));
-			setPen(RGB(0, 255, 0), PS_SOLID, 3);
-			prtRect(x[0], y[0], MOUSE_PX - x[0], MOUSE_PY - y[0], 1);
-			setBrush(RGB(255, 0, 0));
-			prtEllipse(MOUSE_PX - size / 2, MOUSE_PY - size / 2, size, size, 1);
-		}
-		if (KEY_LBUTTON == PULL_KEY) {
-			down = false;
-			x_counter = true;
-		}
-	}
-	if (x_counter)
-	{
-		if (!y_counter)
-		{
-			x[1] = MOUSE_PX - x[0];
-			y[1] = MOUSE_PY - y[0];
-			y_counter = true;
-
-			x[2] = MOUSE_PX;
-			y[2] = MOUSE_PY;
-		}
-
-		setBrush(RGB(0, 0, 255));
-		setPen(RGB(0, 255, 0), PS_SOLID, 3);
-		prtRect(x[0], y[0],x[1] ,y[1], 1);
-		setBrush(RGB(255, 0, 0));
-		prtEllipse(x[2] - size / 2, y[2] - size / 2, size, size, 1);
+	if (!isdown){
+		enemy();
 	}
 
-	return;
+	tama();
+
+
 }
 
 void ExitGameMain()
