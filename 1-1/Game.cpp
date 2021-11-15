@@ -5,104 +5,33 @@
 #include<Windows.h>
 #include<math.h>
 
-#define SIZE 40 
+#define LINE 200 
 #define SPEED 2;
 
-void player()
-{
-	if (KEY_LEFT == HOLD_KEY && player_x - SIZE / 2 > 0)
-	{
-		player_x -= 3;
-	}
-	if (KEY_RIGHT == HOLD_KEY && player_x + SIZE < WIDTH)
-	{
-		player_x += 3;
-	}
-
-	setPen(RGB(0, 255, 0), PS_SOLID, 3);
-	prtLine(player_x, player_y, player_x - SIZE / 2, player_y + SIZE);
-	prtLine(player_x - SIZE / 2, player_y + SIZE, player_x + SIZE / 2, player_y + SIZE);
-	prtLine(player_x + SIZE, player_y + SIZE, player_x, player_y);
-}
-void enemy()
-{
-	setBrush(RGB(0, 0, 0));
-	setPen(RGB(255, 0, 0), PS_SOLID, 3);
-	prtRect(enemy_x, enemy_y, SIZE, SIZE, 1);
-
-	if (enemy_x + SIZE > WIDTH)
-	{
-		counter = true;
-	}
-	else if (enemy_x < 0)
-	{
-		counter = false;
-	}
-	
-	if (!counter)
-	{
-		enemy_x += 2;
-	}
-	else
-	{
-		enemy_x -= 2;
-	}
-}
-void tama()
-{
-
-	if (KEY_SPACE == PUSH_KEY)
-	{
-		x[array_] = player_x - 2;
-		y[array_] = player_y - 5;
-
-		num++;
-		array_++;
-	}
-
-	for (int i = n; i < n + num; i++) {
-
-		setBrush(RGB(0, 0, 0));
-		setPen(RGB(0, 0, 255), PS_SOLID, 5);
-		prtEllipse(x[i] , y[i], 5, 20);
-
-		y[i]-=3;
-
-		if (y[i] + 3 < 0)
-		{
-			n++;
-			num--;
-		}
-
-		if (enemy_x <= x[i] && x[i] <= enemy_x + SIZE
-			&& enemy_y <= y[i] && y[i] <= enemy_y + SIZE)
-		{
-			isdown = true;
-		}
-	}
-
-}
 
 void InitGame()
 {
-	player_x = WIDTH / 2;
-	player_y = HEIGHT - SIZE - 60;
-
-	enemy_x = WIDTH / 2;
-	enemy_y = 60;
+	x = tyuou_x;
+	y = tyuou_y - LINE;
+	si_ta = 4;
 }
 
 void GameMain()
 {
-	player();
-
-	if (!isdown){
-		enemy();
+	if (KEY_RIGHT == HOLD_KEY)
+	{
+		si_ta -= 0.03f;
+	}
+	if (KEY_LEFT == HOLD_KEY)
+	{
+		si_ta += 0.03f;
 	}
 
-	tama();
+	x = LINE * sin(si_ta) + WIDTH / 2;
+	y = LINE * cos(si_ta) + HEIGHT / 2;
 
-
+	setPen(RGB(255, 255, 255), PS_SOLID, 3);
+	prtLine(x,y,tyuou_x,tyuou_y);
 }
 
 void ExitGameMain()

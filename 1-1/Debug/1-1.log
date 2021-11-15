@@ -1,2 +1,4 @@
 ﻿  Game.cpp
+C:\repos\visual studio\月曜後半  アルゴリズム\monday_after_study\1-1\Game.cpp(30,24): warning C4244: '=': 'double' から 'int' への変換です。データが失われる可能性があります。
+C:\repos\visual studio\月曜後半  アルゴリズム\monday_after_study\1-1\Game.cpp(31,24): warning C4244: '=': 'double' から 'int' への変換です。データが失われる可能性があります。
   1-1.vcxproj -> C:\repos\visual studio\月曜後半  アルゴリズム\monday_after_study\1-1\Debug\1-1.exe

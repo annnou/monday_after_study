@@ -16,17 +16,10 @@
 #define size 40
 #define ball_size 10
 
-int x[300] = { 0 };
-int y[300] = { 0 };
+int x = 0;
+int y = 0;
 
-int player_x = 0;
-int player_y = 0;
-int enemy_x = 0;
-int enemy_y = 0;
+float si_ta = 0;
 
-int n = 0;
-int num = 0;
-int array_ = 0;
-
-bool counter = false;
-bool isdown = false;
+int tyuou_x = WIDTH / 2;
+int tyuou_y = HEIGHT / 2;
