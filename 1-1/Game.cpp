@@ -5,33 +5,113 @@
 #include<Windows.h>
 #include<math.h>
 
-#define LINE 200 
+#define SIZE 40 
 #define SPEED 2;
 
+void player()
+{
+	if (KEY_LEFT == HOLD_KEY && player_x - SIZE / 2 > 0)
+	{
+		player_x -= 3;
+	}
+	if (KEY_RIGHT == HOLD_KEY && player_x + SIZE < WIDTH)
+	{
+		player_x += 3;
+	}
+
+	setPen(RGB(0, 255, 0), PS_SOLID, 3);
+	prtLine(player_x, player_y, player_x - SIZE / 2, player_y + SIZE);
+	prtLine(player_x - SIZE / 2, player_y + SIZE, player_x + SIZE / 2, player_y + SIZE);
+	prtLine(player_x + SIZE, player_y + SIZE, player_x, player_y);
+}
+void enemy(int speed ,int o)
+{
+	setBrush(RGB(0, 0, 0));
+	setPen(RGB(255, 0, 0), PS_SOLID, 3);
+	prtRect(enemy_x[o], enemy_y[o], SIZE, SIZE, 1);
+
+	if (enemy_x[o] + SIZE > WIDTH)
+	{
+		counter[o] = true;
+	}
+	else if (enemy_x[o] < 0)
+	{
+		counter[o] = false;
+	}
+	
+	if (!counter[o])
+	{
+		enemy_x[o] += speed;
+	}
+	else
+	{
+		enemy_x[o] -= speed;
+	}
+}
+void tama(int o)
+{
+
+	if (KEY_SPACE == PUSH_KEY)
+	{
+		x[array_] = player_x - 2;
+		y[array_] = player_y - 5;
+
+		num++;
+		array_++;
+	}
+
+	for (int i = n; i < n + num; i++) {
+
+		setBrush(RGB(0, 0, 0));
+		setPen(RGB(0, 0, 255), PS_SOLID, 5);
+		prtEllipse(x[i] , y[i], 5, 20);
+
+		y[i]-=3;
+
+		if (y[i] + 3 < 0)
+		{
+			n++;
+			num--;
+		}
+
+		if (enemy_x[o] <= x[i] && x[i] <= enemy_x[o] + SIZE
+			&& enemy_y[o] <= y[i] && y[i] <= enemy_y[o] + SIZE)
+		{
+			isdown[o] = true;
+		}
+	}
+
+}
 
 void InitGame()
 {
-	x = tyuou_x;
-	y = tyuou_y - LINE;
-	si_ta = 4;
+	srand((unsigned)time(NULL));
+
+	player_x = WIDTH / 2;
+	player_y = HEIGHT - SIZE - 60;
+
+	for (int i = 0; i < 100; i++)
+	{
+		enemy_x[i] = WIDTH / 2;
+		enemy_y[i] = rand() % 100 ;
+	}
+
+	ene_num = 10;
+
 }
 
 void GameMain()
 {
-	if (KEY_RIGHT == HOLD_KEY)
-	{
-		si_ta -= 0.03f;
-	}
-	if (KEY_LEFT == HOLD_KEY)
-	{
-		si_ta += 0.03f;
-	}
+	player();
 
-	x = LINE * sin(si_ta) + WIDTH / 2;
-	y = LINE * cos(si_ta) + HEIGHT / 2;
+	for (int p = 0; p < ene_num; p++) {
 
-	setPen(RGB(255, 255, 255), PS_SOLID, 3);
-	prtLine(x,y,tyuou_x,tyuou_y);
+		if (!isdown[p]) {
+
+			enemy(p + 1, p);
+		}
+		tama(p);
+	}
 }
 
 void ExitGameMain()
