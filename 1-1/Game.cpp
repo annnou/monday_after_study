@@ -51,7 +51,7 @@ void enemy(int speed ,int o)
 void tama(int o)
 {
 
-	if (KEY_SPACE == PUSH_KEY)
+	if (KEY_SPACE == HOLD_KEY)
 	{
 		x[array_] = player_x - 2;
 		y[array_] = player_y - 5;
