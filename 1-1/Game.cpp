@@ -1,193 +1,203 @@
-﻿#include "Game.h"
-#include<stdio.h> 
-#include<stdlib.h> 
-#include<time.h> 
-#include<Windows.h>
-#include<math.h>
+﻿/**
+ * ゲームメインループ
+ */
+#include "Game.h"
 
-#define SIZE 40 
-#define SPEED 2;
-
-void player()
-{
-	if (KEY_LEFT == HOLD_KEY && player_x - SIZE / 2 > 0)
-	{
-		player_x -= 3;
-	}
-	if (KEY_RIGHT == HOLD_KEY && player_x + SIZE < WIDTH)
-	{
-		player_x += 3;
-	}
-
-	setPen(RGB(0, 255, 0), PS_SOLID, 3);
-	prtLine(player_x, player_y, player_x - SIZE / 2, player_y + SIZE);
-	prtLine(player_x - SIZE / 2, player_y + SIZE, player_x + SIZE / 2, player_y + SIZE);
-	prtLine(player_x + SIZE, player_y + SIZE, player_x, player_y);
-}
-void enemy(int speed ,int o)
-{
-	setBrush(RGB(0, 0, 0));
-	setPen(RGB(255, 0, 0), PS_SOLID, 3);
-	prtRect(enemy_x[o], enemy_y[o], SIZE, SIZE, 1);
-
-	if (enemy_x[o] + SIZE > WIDTH)
-	{
-		counter[o] = true;
-	}
-	else if (enemy_x[o] < 0)
-	{
-		counter[o] = false;
-	}
-	
-	if (!counter[o])
-	{
-		enemy_x[o] += speed;
-	}
-	else
-	{
-		enemy_x[o] -= speed;
-	}
-}
-void tama(int o)
-{
-
-	if (KEY_SPACE == HOLD_KEY)
-	{
-		x[array_] = player_x - 2;
-		y[array_] = player_y - 5;
-
-		num++;
-		array_++;
-	}
-
-	for (int i = n; i < n + num; i++) {
-
-		setBrush(RGB(0, 0, 0));
-		setPen(RGB(0, 0, 255), PS_SOLID, 5);
-		prtEllipse(x[i] , y[i], 5, 20);
-
-		y[i]-=3;
-
-		if (y[i] + 3 < 0)
-		{
-			n++;
-			num--;
-		}
-
-		if (enemy_x[o] <= x[i] && x[i] <= enemy_x[o] + SIZE
-			&& enemy_y[o] <= y[i] && y[i] <= enemy_y[o] + SIZE)
-		{
-			isdown[o] = true;
-		}
-	}
-
-}
-
+/**
+ * ゲーム起動前初期化処理
+ */
 void InitGame()
 {
-	srand((unsigned)time(NULL));
+	//------------------------------------------
+	//ここにゲームの初期化処理を書く
+	//------------------------------------------
 
-	player_x = WIDTH / 2;
-	player_y = HEIGHT - SIZE - 60;
+	//　弾の初期化
+	for (int i = 0; i < BULLET_MAX; i++) {
+		bullet[i].x = 0;
+		bullet[i].y = 0;
+		bullet[i].w = BULLET_W;
+		bullet[i].h = BULLET_H;
+		bullet[i].vx = 0;
+		bullet[i].vy = -1;
+		bullet[i].speed = BULLET_SPEED;
+		bullet[i].type = VLINE;	// 縦線
+		bullet[i].out_color = RGB(255, 0, 0);
+		bullet[i].in_color = RGB(255, 0, 0);
+		bullet[i].move = true;
+		bullet[i].view = false;
+	}
+	bullet_index = 0;			// 弾の配列Index
 
-	for (int i = 0; i < 100; i++)
-	{
-		enemy_x[i] = WIDTH / 2;
-		enemy_y[i] = rand() % 100 ;
+
+	for (int i = 0; i < BULLET_MAX; i++) {
+		bullet[i].x = 0;
+		bullet[i].y = 0;
+		bullet[i].vx = 0;
+		bullet[i].vy = -1;
+		bullet[i].speed = BULLET_SPEED;
+		bullet[i].view = false;
 	}
 
-	ene_num = 10;
 
+	// 敵の初期化
+	for (int i = 0; i < ENEMY_MAX; i++) {
+		enemy[i].x = rand() % SCREEN_W;
+		enemy[i].y = ENEMY_Y_POS;
+		enemy[i].w = ENEMY_W;
+		enemy[i].h = ENEMY_H;
+		enemy[i].vx = -1;
+		enemy[i].vy = 0;
+		enemy[i].speed = ENEMY_SPEED;
+		enemy[i].type = RECT;
+		enemy[i].out_color = RGB(0, 0, 128);
+		enemy[i].in_color = RGB(0, 0, 255);
+		enemy[i].move = true;
+		enemy[i].view = true;
+	}
 }
 
+/**
+ * ゲームメインループ
+ */
 void GameMain()
 {
-	player();
+	//------------------------------------------
+	//ここに↓ゲームのメイン処理を記述
+	//------------------------------------------
+	// 自機の描画
+	draw(&ship);
 
-	for (int p = 0; p < ene_num; p++) {
+	// 弾の描画
+	for (int i = 0; i < BULLET_MAX; i++) {
+		draw(&bullet[i]);
+	}
+	// 敵の描画
+	for (int i = 0; i < ENEMY_MAX; i++) {
+		draw(&enemy[i]);
 
-		if (!isdown[p]) {
-
-			enemy(p + 1, p);
+		// 画面左側
+		if (enemy[i].x < enemy[i].w / 2) {
+			enemy[i].x = enemy[i].w / 2;
+			enemy[i].vx = 1;
 		}
-		tama(p);
+		// 画面右側
+		if (enemy[i].x > SCREEN_W - enemy[i].w / 2) {
+			enemy[i].x = SCREEN_W - enemy[i].w / 2;
+			enemy[i].vx = -1;
+		}
+	
+	}
+
+	/*
+	// 当たり判定の公式
+	// ax ay aw ah と bx by bw bh の矩形同士の当たり判定の公式
+	if (ax < bx + bw && ax + aw > bx &&
+		ay < by + bh && ay + ah > by) {
+
+		// 当たった！！
+	}
+	*/
+	for (int i = 0; i < ENEMY_MAX; i++) {
+		for (int t = 0; t < BULLET_MAX; t++) {
+			if (enemy[i].view && bullet[i].view) {
+				// 弾と敵の当たり判定
+				if (enemy[i].x - enemy[i].w / 2 < bullet[t].x - bullet[t].w / 2 + bullet[t].w &&
+					enemy[i].x - enemy[i].w / 2 + enemy[i].w > bullet[t].x - bullet[t].w / 2 &&
+					enemy[i].y - enemy[i].h / 2 < bullet[t].y - bullet[t].h / 2 + bullet[t].h &&
+					enemy[i].y - enemy[i].h / 2 + enemy[i].h > bullet[t].y - bullet[t].h / 2) {
+
+					enemy[i].view = false;
+				}
+			}
+		}
+	}
+
+
+	//-----------------------------
+	// 自機の操作
+	if (KEY_LEFT == HOLD_KEY) {
+		ship.x -= ship.speed;
+		if (ship.x  < ship.w / 2) {
+			ship.x = ship.w / 2;
+		}
+	}
+	if (KEY_RIGHT == HOLD_KEY) {
+		ship.x += ship.speed;
+		if (ship.x > SCREEN_W - ship.w / 2) {
+			ship.x = SCREEN_W - ship.w / 2;
+		}
+
+	}
+	// 弾の発射
+	if (KEY_SPACE == HOLD_KEY) {
+		bullet[bullet_index].view = true;
+		bullet[bullet_index].x = ship.x;
+		bullet[bullet_index].y = ship.y - ship.h / 2;
+		bullet_index++;
+		if (bullet_index >= BULLET_MAX) {
+			bullet_index = 0;
+		}
+	}
+
+	//------------------------------------------
+	//ここまで↑
+	//------------------------------------------
+	//------------------------------------------
+	//↓デバッグ用
+//	char str[256];
+//	sprintf_s(str,"x=%d : y=%d",x,y);
+//	prtText(0,0,str,RGB(255,0,0));	
+
+	return;
+}
+
+/**
+ * ゲーム終了解放処理
+ */
+void ExitGameMain()
+{
+	//------------------------------------------
+	//ここにゲーム終了後の解放処理を記述
+	//------------------------------------------
+
+}
+
+void draw(TObject* o) {
+	if (o->view) {
+		setPen(o->out_color, PS_SOLID, 3);	// 外色の指定
+		setBrush(o->in_color);				// 内色の指定
+		switch (o->type) {
+		case RECT:	// 四角形
+			prtRect(o->x - o->w / 2, o->y - o->h / 2, o->w, o->h, 1);
+			break;
+		case CIRCLE:// 円形
+			prtEllipse(o->x - o->w / 2, o->y - o->h / 2, o->w, o->h, 1);
+			break;
+
+		case VLINE:	// 縦線
+			prtLine(o->x, o->y - (o->h / 2), o->x, o->y + (o->h / 2));
+			break;
+		case HLINE:	// 横線 
+			prtLine(o->x - (o->w / 2), o->y, o->x + (o->w / 2), o->y);
+			break;
+		case U_TRI:	// 上三角形
+			prtTriangle(o->x, o->y - (o->h / 2),
+				o->x - (o->w / 2), o->y + (o->h / 2),
+				o->x + (o->w / 2), o->y + (o->h / 2), 1);
+			break;
+		case D_TRI:	// 下三角形
+			prtTriangle(o->x, o->y + (o->h / 2),
+				o->x - (o->w / 2), o->y - (o->h / 2),
+				o->x + (o->w / 2), o->y - (o->h / 2), 1);
+			break;
+		}
+		// 移動フラグ
+		if (o->move) {
+			o->x += o->vx * o->speed;
+			o->y += o->vy * o->speed;
+		}
 	}
 }
 
-void ExitGameMain()
-{
 
-}
-//setBrush(RGB(0, 0, 255));
-//setPen(RGB(255, 0, 0), PS_SOLID, 5);
-//prtRect(1, 1, WIDTH, HEIGHT, 1);
-//prtLine(WIDTH / 4, 1, WIDTH / 4, HEIGHT);
-
-//void prtLine(int, int, int, int);					// 始点から終点まで線をひく
-//void prtPolyline(POINT* p, int);					// 複数の頂点を持つ線を描く
-//void prtTriangle(int, int, int, int, int, int, int fill = 1);		// 三角形を描く
-//void prtRect(int, int, int, int, int fill = MODE_FILL);		//四角形を描く 
-//void prtRoundRect(int, int, int, int, int, int, int fill = MODE_FILL); //丸みのある四角形を描く 
-//void prtPolygon(POINT*, int, int fill = MODE_FILL);			// 複数の頂点を結ぶ多角形を描く
-//void prtEllipse(int px, int py, int width, int height, int fill = MODE_FILL);	// 円（楕円）を描画する
-//void prtArc(int px, int py, int width, int height, int sx, int sy, int ex, int ey, int mode = MODE_ARC, int fill = MODE_FILL); // 円弧を描画する
-
-
-/*
-#define	FREE_KEY	0 // キーが押されていない状態
-#define	PUSH_KEY	1 // キーを押された瞬間
-#define	PULL_KEY	2 // キーが放された瞬間
-#define	HOLD_KEY	3 // キーが押されている状態
-*/
-
-/*
-extern int MOUSE_PX;						// マウスの現在のX座標
-extern int MOUSE_PY;						// マウスの現在のY座標
-*/
-
-/*
-int KEY_LBUTTON		=0;		// マウス左ボタン
-int KEY_RBUTTON		=0;		// マウス右ボタン
-int KEY_UP			=0;		// ↑キー
-int KEY_DOWN		=0;		// ↓キー
-int KEY_LEFT		=0;		// ←キー
-int KEY_RIGHT		=0;		// →キー
-int KEY_RETURN		=0;		// ENTERキー
-int KEY_SPACE		=0;		// スペースキー
-int KEY_SHIFT		=0;		// SHIFTキー
-int KEY_CONTROL		=0;		// CTRLキー
-int KEY_ALT			=0;		// ALTキーVK_MENU
-int KEY_ESCAPE		=0;		// ESCキー
-int KEY_NUM1		=0;		// NUM1
-int KEY_NUM2		=0;		// NUM2
-int KEY_NUM3		=0;		// NUM3
-int KEY_NUM4		=0;		// NUM4
-int KEY_NUM5		=0;		// NUM5
-int KEY_NUM6		=0;		// NUM6
-int KEY_NUM7		=0;		// NUM7
-int KEY_NUM8		=0;		// NUM8
-int KEY_NUM9		=0;		// NUM9
-int KEY_NUM0		=0;		// NUM0
-int KEY_1			=0;		// 1
-int KEY_2			=0;		// 2
-int KEY_3			=0;		// 3
-int KEY_4			=0;		// 4
-int KEY_5			=0;		// 5
-int KEY_6			=0;		// 6
-int KEY_7			=0;		// 7
-int KEY_8			=0;		// 8
-int KEY_9			=0;		// 9
-int KEY_0			=0;		// 0
-int KEY_Q			=0;		// Q
-int KEY_W			=0;		// W
-int KEY_E			=0;		// E
-int KEY_R			=0;		// R
-int KEY_A			=0;		// A
-int KEY_S			=0;		// S
-int KEY_D			=0;		// D
-int KEY_F			=0;		// F
-int KEY_Z			=0;		// Z
-int KEY_X			=0;		// X
-int KEY_C			=0;		// C
-int KEY_V			=0;		// V
-*/

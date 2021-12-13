@@ -1,2 +1,32 @@
 ﻿  Game.cpp
+C:\repos\visual studio\月曜後半  アルゴリズム\monday_after_study\1-1\Game.cpp(172,53): warning C4244: '引数': 'double' から 'int' への変換です。データが失われる可能性があります。
+C:\repos\visual studio\月曜後半  アルゴリズム\monday_after_study\1-1\Game.cpp(172,47): warning C4244: '引数': 'double' から 'int' への変換です。データが失われる可能性があります。
+C:\repos\visual studio\月曜後半  アルゴリズム\monday_after_study\1-1\Game.cpp(172,34): warning C4244: '引数': 'double' から 'int' への変換です。データが失われる可能性があります。
+C:\repos\visual studio\月曜後半  アルゴリズム\monday_after_study\1-1\Game.cpp(172,17): warning C4244: '引数': 'double' から 'int' への変換です。データが失われる可能性があります。
+C:\repos\visual studio\月曜後半  アルゴリズム\monday_after_study\1-1\Game.cpp(175,56): warning C4244: '引数': 'double' から 'int' への変換です。データが失われる可能性があります。
+C:\repos\visual studio\月曜後半  アルゴリズム\monday_after_study\1-1\Game.cpp(175,50): warning C4244: '引数': 'double' から 'int' への変換です。データが失われる可能性があります。
+C:\repos\visual studio\月曜後半  アルゴリズム\monday_after_study\1-1\Game.cpp(175,37): warning C4244: '引数': 'double' から 'int' への変換です。データが失われる可能性があります。
+C:\repos\visual studio\月曜後半  アルゴリズム\monday_after_study\1-1\Game.cpp(175,20): warning C4244: '引数': 'double' から 'int' への変換です。データが失われる可能性があります。
+C:\repos\visual studio\月曜後半  アルゴリズム\monday_after_study\1-1\Game.cpp(179,48): warning C4244: '引数': 'double' から 'int' への変換です。データが失われる可能性があります。
+C:\repos\visual studio\月曜後半  アルゴリズム\monday_after_study\1-1\Game.cpp(179,38): warning C4244: '引数': 'double' から 'int' への変換です。データが失われる可能性があります。
+C:\repos\visual studio\月曜後半  アルゴリズム\monday_after_study\1-1\Game.cpp(179,23): warning C4244: '引数': 'double' から 'int' への変換です。データが失われる可能性があります。
+C:\repos\visual studio\月曜後半  アルゴリズム\monday_after_study\1-1\Game.cpp(179,13): warning C4244: '引数': 'double' から 'int' への変換です。データが失われる可能性があります。
+C:\repos\visual studio\月曜後半  アルゴリズム\monday_after_study\1-1\Game.cpp(182,57): warning C4244: '引数': 'double' から 'int' への変換です。データが失われる可能性があります。
+C:\repos\visual studio\月曜後半  アルゴリズム\monday_after_study\1-1\Game.cpp(182,42): warning C4244: '引数': 'double' から 'int' への変換です。データが失われる可能性があります。
+C:\repos\visual studio\月曜後半  アルゴリズム\monday_after_study\1-1\Game.cpp(182,32): warning C4244: '引数': 'double' から 'int' への変換です。データが失われる可能性があります。
+C:\repos\visual studio\月曜後半  アルゴリズム\monday_after_study\1-1\Game.cpp(182,17): warning C4244: '引数': 'double' から 'int' への変換です。データが失われる可能性があります。
+C:\repos\visual studio\月曜後半  アルゴリズム\monday_after_study\1-1\Game.cpp(187,29): warning C4244: '引数': 'double' から 'int' への変換です。データが失われる可能性があります。
+C:\repos\visual studio\月曜後半  アルゴリズム\monday_after_study\1-1\Game.cpp(187,10): warning C4244: '引数': 'double' から 'int' への変換です。データが失われる可能性があります。
+C:\repos\visual studio\月曜後半  アルゴリズム\monday_after_study\1-1\Game.cpp(186,29): warning C4244: '引数': 'double' から 'int' への変換です。データが失われる可能性があります。
+C:\repos\visual studio\月曜後半  アルゴリズム\monday_after_study\1-1\Game.cpp(186,10): warning C4244: '引数': 'double' から 'int' への変換です。データが失われる可能性があります。
+C:\repos\visual studio\月曜後半  アルゴリズム\monday_after_study\1-1\Game.cpp(185,27): warning C4244: '引数': 'double' から 'int' への変換です。データが失われる可能性があります。
+C:\repos\visual studio\月曜後半  アルゴリズム\monday_after_study\1-1\Game.cpp(185,17): warning C4244: '引数': 'double' から 'int' への変換です。データが失われる可能性があります。
+C:\repos\visual studio\月曜後半  アルゴリズム\monday_after_study\1-1\Game.cpp(192,29): warning C4244: '引数': 'double' から 'int' への変換です。データが失われる可能性があります。
+C:\repos\visual studio\月曜後半  アルゴリズム\monday_after_study\1-1\Game.cpp(192,10): warning C4244: '引数': 'double' から 'int' への変換です。データが失われる可能性があります。
+C:\repos\visual studio\月曜後半  アルゴリズム\monday_after_study\1-1\Game.cpp(191,29): warning C4244: '引数': 'double' から 'int' への変換です。データが失われる可能性があります。
+C:\repos\visual studio\月曜後半  アルゴリズム\monday_after_study\1-1\Game.cpp(191,10): warning C4244: '引数': 'double' から 'int' への変換です。データが失われる可能性があります。
+C:\repos\visual studio\月曜後半  アルゴリズム\monday_after_study\1-1\Game.cpp(190,27): warning C4244: '引数': 'double' から 'int' への変換です。データが失われる可能性があります。
+C:\repos\visual studio\月曜後半  アルゴリズム\monday_after_study\1-1\Game.cpp(190,17): warning C4244: '引数': 'double' から 'int' への変換です。データが失われる可能性があります。
+  WinGDILib.cpp
+  コードを生成中...
   1-1.vcxproj -> C:\repos\visual studio\月曜後半  アルゴリズム\monday_after_study\1-1\Debug\1-1.exe
