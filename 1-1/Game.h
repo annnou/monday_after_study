@@ -21,6 +21,8 @@
 #define SCREEN_W		800
 #define SCREEN_H		600
 
+#define MAXTIME		20
+
 // 形状
 #define RECT			1	// 四角形
 #define CIRCLE			2	// 円形
@@ -33,9 +35,10 @@
 // 自機関連
 #define SHIP_W			40
 #define SHIP_H			40
-#define SHIP_X_POS		SCREEN_W/2
-#define SHIP_Y_POS		SCREEN_H-60
+#define SHIP_X_POS		SCREEN_W / 2
+#define SHIP_Y_POS		SCREEN_H - 60
 #define SHIP_SPEED		5
+#define SHIP_HP			1
 
 // 弾関連
 #define BULLET_W		1
@@ -46,11 +49,12 @@
 
 
 // 敵関連
-#define ENEMY_MAX		10
+#define ENEMY_MAX		100
 
+#define ENEMY_HP		50
 #define ENEMY_W			40
 #define ENEMY_H			40
-#define ENEMY_X_POS		SCREEN_W/2
+#define ENEMY_X_POS		SCREEN_W / 2
 #define ENEMY_Y_POS		60
 #define ENEMY_SPEED		8
 
@@ -63,6 +67,7 @@ typedef struct {
 	double w, h;		// 幅、高さ
 	double vx, vy;		// 移動方向
 	double speed;		// 速度
+	int HP;
 	int		type;		// 形状
 	COLORREF out_color;	// 外枠の色
 	COLORREF in_color;	// 内側の色
@@ -78,6 +83,7 @@ TObject ship = {
 	SHIP_W,SHIP_H,				// 幅高さ
 	0,0,						// 移動方向
 	SHIP_SPEED,					// スピード
+	SHIP_HP,					// プレイヤーのHP
 	U_TRI,						// 形状
 	RGB(0,128,0),				// 外枠の色
 	RGB(0,255,0),				// 内側の色
@@ -89,7 +95,10 @@ TObject ship = {
 // 弾関連
 TObject bullet[BULLET_MAX];
 int bullet_index;						// 弾の配列Index
+int Time[ENEMY_MAX];
+int enemy_num = 0;
 
+bool player_down = false;
 
 // 敵関連
 TObject enemy[ENEMY_MAX];

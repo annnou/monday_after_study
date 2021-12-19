@@ -43,17 +43,19 @@ void InitGame()
 	// 敵の初期化
 	for (int i = 0; i < ENEMY_MAX; i++) {
 		enemy[i].x = rand() % SCREEN_W;
-		enemy[i].y = ENEMY_Y_POS;
+		enemy[i].y = rand() % 200 + ENEMY_Y_POS ;
 		enemy[i].w = ENEMY_W;
 		enemy[i].h = ENEMY_H;
+		enemy[i].HP = ENEMY_HP;
 		enemy[i].vx = -1;
 		enemy[i].vy = 0;
-		enemy[i].speed = ENEMY_SPEED;
-		enemy[i].type = RECT;
+		enemy[i].speed = ENEMY_SPEED ;
+		enemy[i].type = CIRCLE;
 		enemy[i].out_color = RGB(0, 0, 128);
 		enemy[i].in_color = RGB(0, 0, 255);
 		enemy[i].move = true;
 		enemy[i].view = true;
+
 	}
 }
 
@@ -76,17 +78,32 @@ void GameMain()
 	for (int i = 0; i < ENEMY_MAX; i++) {
 		draw(&enemy[i]);
 
-		// 画面左側
-		if (enemy[i].x < enemy[i].w / 2) {
-			enemy[i].x = enemy[i].w / 2;
-			enemy[i].vx = 1;
+		Time[enemy_num]++;
+
+		if (Time[i] < MAXTIME) {
+
+			// 画面左側
+			if (enemy[i].x < enemy[i].w / 2) {
+				enemy[i].x = enemy[i].w / 2;
+				enemy[i].vx = 1;
+			}
+			// 画面右側
+			if (enemy[i].x > SCREEN_W - enemy[i].w / 2) {
+				enemy[i].x = SCREEN_W - enemy[i].w / 2;
+				enemy[i].vx = -1;
+			}
 		}
-		// 画面右側
-		if (enemy[i].x > SCREEN_W - enemy[i].w / 2) {
-			enemy[i].x = SCREEN_W - enemy[i].w / 2;
-			enemy[i].vx = -1;
+		else
+		{
+			enemy[enemy_num].vx = 0;
+			enemy[enemy_num].vy = 1;
+
+			if (enemy[enemy_num].y > SCREEN_H) {
+
+				enemy[enemy_num].view = false;
+				enemy_num++;
+			}
 		}
-	
 	}
 
 	/*
@@ -98,6 +115,7 @@ void GameMain()
 		// 当たった！！
 	}
 	*/
+
 	for (int i = 0; i < ENEMY_MAX; i++) {
 		for (int t = 0; t < BULLET_MAX; t++) {
 			if (enemy[i].view && bullet[i].view) {
@@ -107,37 +125,94 @@ void GameMain()
 					enemy[i].y - enemy[i].h / 2 < bullet[t].y - bullet[t].h / 2 + bullet[t].h &&
 					enemy[i].y - enemy[i].h / 2 + enemy[i].h > bullet[t].y - bullet[t].h / 2) {
 
-					enemy[i].view = false;
+					enemy[i].HP--;
+
+					int Receive_R_Color = rand() % 255 + 1;
+					int Receive_G_Color = rand() % 255 + 1;
+					int Receive_B_Color = rand() % 255 + 1;
+					enemy[i].in_color = RGB(
+						Receive_R_Color,
+						Receive_G_Color,
+						Receive_B_Color);
+
+					if (enemy[i].HP <= 0)
+					{
+						enemy[i].view = false;
+					}
 				}
 			}
 		}
 	}
 
+	for (int i = 0; i < ENEMY_MAX; i++) {
+		if (ship.view && enemy[i].view) {
+			// 弾と敵の当たり判定
+			if (enemy[i].x - enemy[i].w / 2 < ship.x - ship.w / 2 + ship.w &&
+				enemy[i].x - enemy[i].w / 2 + enemy[i].w > ship.x - ship.w / 2 &&
+				enemy[i].y - enemy[i].h / 2 < ship.y - ship.h / 2 + ship.h &&
+				enemy[i].y - enemy[i].h / 2 + enemy[i].h > ship.y - ship.h / 2) {
+
+				player_down = true;
+			}
+		}
+	}
 
 	//-----------------------------
 	// 自機の操作
-	if (KEY_LEFT == HOLD_KEY) {
-		ship.x -= ship.speed;
-		if (ship.x  < ship.w / 2) {
-			ship.x = ship.w / 2;
+
+	if (!player_down) {
+
+		//Horizontal
+		if (KEY_LEFT == HOLD_KEY) {
+			ship.x -= ship.speed;
+			if (ship.x < ship.w / 2) {
+				ship.x = ship.w / 2;
+			}
 		}
-	}
-	if (KEY_RIGHT == HOLD_KEY) {
-		ship.x += ship.speed;
-		if (ship.x > SCREEN_W - ship.w / 2) {
-			ship.x = SCREEN_W - ship.w / 2;
+		else if (KEY_RIGHT == HOLD_KEY) {
+			ship.x += ship.speed;
+			if (ship.x > SCREEN_W - ship.w / 2) {
+				ship.x = SCREEN_W - ship.w / 2;
+			}
+
+		}
+
+		//vartical
+		if (KEY_UP == HOLD_KEY) {
+			ship.y -= ship.speed;
+			if (ship.y < ship.h / 2) {
+				ship.y = ship.h / 2;
+			}
+		}
+		else if (KEY_DOWN == HOLD_KEY) {
+			ship.y += ship.speed;
+			if (ship.y > SCREEN_H - ship.h / 2) {
+				ship.y = SCREEN_H - ship.h / 2;
+			}
+
+		}
+
+
+		// 弾の発射
+		if (KEY_Z == HOLD_KEY) {
+			bullet[bullet_index].view = true;
+			bullet[bullet_index].x = ship.x;
+			bullet[bullet_index].y = ship.y - ship.h / 2;
+			bullet_index++;
+
+			int r = rand() % 10 + 265;
+			bullet[bullet_index].vx = cos(RAD(r));
+			bullet[bullet_index].vy = sin(RAD(r));
+
+			if (bullet_index >= BULLET_MAX) {
+				bullet_index = 0;
+			}
 		}
 
 	}
-	// 弾の発射
-	if (KEY_SPACE == HOLD_KEY) {
-		bullet[bullet_index].view = true;
-		bullet[bullet_index].x = ship.x;
-		bullet[bullet_index].y = ship.y - ship.h / 2;
-		bullet_index++;
-		if (bullet_index >= BULLET_MAX) {
-			bullet_index = 0;
-		}
+	else {
+
+		ship.in_color = RGB(255, 0, 0);
 	}
 
 	//------------------------------------------
